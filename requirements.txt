@@ -1,0 +1,4 @@
+pygame
+matplotlib
+python-constraint
+pytest

@@ -1,0 +1,145 @@
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =============================================================================
+# Virtual Environments & Package Managers
+# =============================================================================
+.env
+.env.*
+!.env.example
+.envrc
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+.conda/
+conda-meta/
+__pypackages__/
+.pdm-python
+.pdm-build/
+.pixi/*
+!.pixi/config.toml
+
+# =============================================================================
+# Testing, Coverage, Type Checking & Linting
+# =============================================================================
+.pytest_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+*.lcov
+htmlcov/
+cover/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+cython_debug/
+
+# =============================================================================
+# Jupyter & Interactive Tools
+# =============================================================================
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+__marimo__/
+
+# =============================================================================
+# IDEs & Text Editors
+# =============================================================================
+# JetBrains / PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+tempCodeRunnerFile.py
+
+# Spyder / Rope / Vim / Emacs / Sublime
+.spyderproject
+.spyproject
+.ropeproject
+*.swp
+*.swo
+*~
+\#*#
+.#*
+*.sublime-project
+*.sublime-workspace
+
+# =============================================================================
+# Operating Systems
+# =============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# =============================================================================
+# Logs & Temporary Files
+# =============================================================================
+*.log
+*.tmp
+*.temp
+*.bak
