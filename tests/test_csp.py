@@ -1,8 +1,14 @@
 """Automated tests for the CSP task allocation module."""
 import itertools
 import math
+from pathlib import Path
 import random
+import subprocess
+import sys
 import pytest
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from csp import (
     AllocationResult,
@@ -351,3 +357,41 @@ def test_csp_invariants_across_random_scenarios():
                 assert task.total_cost <= robot.battery
 
         assert csp_res.total_priority >= greedy_res.total_priority
+
+
+def test_direct_script_execution_and_generator_inputs(capsys):
+    from csp.compare_allocation import print_demo_hospital
+
+    print_demo_hospital()
+    out = capsys.readouterr().out
+    assert "Demo Hospital: Wave 1 CSP Allocation" in out
+    assert "Demo Hospital: Full Multi-Wave Schedule" in out
+
+    env = build_demo_environment()
+    robot_gen = (RobotSpec(f"R{i}", pos) for i, pos in enumerate(env.get_robot_bases()))
+    people_gen = (p for p in env.get_people())
+    exit_info, to_person, mission = precompute_mission_costs(env, robot_gen, people_gen)
+    assert len(exit_info) == len(env.get_people())
+    assert len(to_person) == len(env.get_robot_bases()) * len(env.get_people())
+    assert len(mission) == len(to_person)
+
+    repo_root = Path(__file__).resolve().parent.parent
+    for rel_script in (
+        "csp/__init__.py",
+        "csp/models.py",
+        "csp/constraints.py",
+        "csp/allocator.py",
+        "csp/baseline.py",
+    ):
+        proc = subprocess.run(
+            [sys.executable, str(repo_root / rel_script)],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert proc.returncode == 0, f"{rel_script} failed: {proc.stderr}"
+
+
+if __name__ == "__main__":
+    raise SystemExit(pytest.main([__file__, "-v"]))

@@ -1,6 +1,12 @@
 """Myopic greedy nearest-person baseline for benchmarking against CSP allocation."""
 from collections.abc import Iterable, Sequence
 
+if __package__ in (None, ""):
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from csp.allocator import _prepare
 from csp.models import AllocationResult, Coord, RobotId, RobotSpec, TaskAssignment
 
