@@ -4,6 +4,12 @@ from dataclasses import dataclass
 import math
 from constraint import Problem, Solver
 
+if __package__ in (None, ""):
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from pathfinding import cost_matrix, nearest_exit
 from csp.constraints import NoTaskConflict, is_task_feasible
 from csp.models import AllocationResult, Coord, RobotId, RobotSpec, TaskAssignment
@@ -66,18 +72,20 @@ def _resolve_robots(env, robots: Sequence[RobotSpec] | None = None) -> list[Robo
 
 def precompute_mission_costs(
     env,
-    robots: Sequence[RobotSpec],
-    people: Sequence[Coord],
+    robots: Iterable[RobotSpec],
+    people: Iterable[Coord],
     algorithm: str = "astar",
 ):
     """Precompute `person -> nearest_exit` and `robot -> person -> exit` path costs."""
-    exit_info = {p: nearest_exit(env, p, algorithm=algorithm)[::2] for p in people}
-    sources = list({r.pos for r in robots})
-    raw = cost_matrix(env, sources, people, algorithm=algorithm) if (sources and people) else {}
+    specs = list(robots)
+    targets = list(people)
+    exit_info = {p: nearest_exit(env, p, algorithm=algorithm)[::2] for p in targets}
+    sources = list({r.pos for r in specs})
+    raw = cost_matrix(env, sources, targets, algorithm=algorithm) if (sources and targets) else {}
 
     to_person, mission = {}, {}
-    for r in robots:
-        for p in people:
+    for r in specs:
+        for p in targets:
             leg1 = raw.get((r.pos, p), math.inf)
             to_person[(r.robot_id, p)] = leg1
             mission[(r.robot_id, p)] = leg1 + exit_info[p][1]
@@ -298,7 +306,7 @@ def plan_all_waves(
         waves.append(res)
         remaining -= res.assigned_people()
         fleet = [
-            RobotSpec(r.robot_id, t.exit, r.battery - t.total_cost, r.available)
+            RobotSpec(r.robot_id, t.exit, max(0.0, r.battery - t.total_cost), r.available)
             if (t := res.for_robot(r.robot_id)) is not None
             else r
             for r in fleet

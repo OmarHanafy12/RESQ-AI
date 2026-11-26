@@ -1,10 +1,14 @@
 """Demo hospital schedule and Greedy vs CSP benchmark (`python -m csp.compare_allocation`)."""
 from pathlib import Path
 from statistics import mean
+import sys
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from csp import RobotSpec, allocate_tasks, greedy_allocate_tasks, plan_all_waves
 from scenarios import build_random_scenario

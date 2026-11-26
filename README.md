@@ -44,6 +44,7 @@ RESQ-AI/
 │   └── csp_comparison.png      # Greedy vs CSP allocation benchmark chart
 │
 ├── requirements.txt            # Project Python dependencies
+├── pytest.ini                  # Pytest root path & test discovery config
 ├── .gitignore                  # Standard Python, IDE & OS ignore rules
 └── README.md                   # Project structure overview
 ```
